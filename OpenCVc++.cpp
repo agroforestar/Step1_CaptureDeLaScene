@@ -87,8 +87,8 @@ void useCamera() {
 int main(int argc, char** argv)
 {
 
-    useCamera();
-    Mat src = imread("screenshot.png", cv::IMREAD_COLOR);
+   // useCamera();
+    Mat src = imread("screenshot2.png", cv::IMREAD_COLOR);
     Mat thr, gray;
     blur(src, src, Size(3, 3));  
     cvtColor(src, gray, cv::COLOR_BGR2GRAY);
@@ -105,20 +105,23 @@ int main(int argc, char** argv)
     for (int i = 0; i < contours.size(); i++)
     {
         approxPolyDP(Mat(contours[i]), contours_poly[i], 1, true); // modifier le epsilon pour détecter de plus petit objects
-        boundRect[i] = boundingRect(Mat(contours_poly[i]));
-        minEnclosingCircle((Mat)contours_poly[i], center[i], radius[i]);
-        convexHull(Mat(contours[i]), hull[i], false);
+        if (contours_poly[i].size() > 2) {
+            boundRect[i] = boundingRect(Mat(contours_poly[i]));
+            minEnclosingCircle((Mat)contours_poly[i], center[i], radius[i]);
+            convexHull(Mat(contours[i]), hull[i], false);
 
-        string form = detect(contours_poly[i].size());
-        Moments M = moments(contours_poly[i]);
-        int cX = int((M.m10 / M.m00));
-        int cY = int((M.m01 / M.m00));
-      
-        std::cout << contours_poly[i].size() << std::endl;
-        drawContours(src, contours_poly, i, Scalar(0, 0, 255), 2, 8, vector<Vec4i>(), 0, Point());
-        writeFormName(form, cX, cY, src);
+            string form = detect(contours_poly[i].size());
+            Moments M = moments(contours_poly[i]);
+            int cX = int((M.m10 / M.m00));
+            int cY = int((M.m01 / M.m00));
 
-        writeInOutputFile(cX, cY, form);
+            std::cout << contours_poly[i].size() << std::endl;
+            drawContours(src, contours_poly, i, Scalar(0, 0, 255), 2, 8, vector<Vec4i>(), 0, Point());
+            writeFormName(form, cX, cY, src);
+
+            writeInOutputFile(cX, cY, form);
+        }
+        
     }
 
     imshow("src", src);
