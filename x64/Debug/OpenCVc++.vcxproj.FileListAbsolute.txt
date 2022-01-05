@@ -1,0 +1,2 @@
+D:\Mes_Documents\code\opencvC++\x64\Debug\OpenCVc++.exe
+D:\Mes_Documents\code\opencvC++\x64\Debug\OpenCVc++.pdb

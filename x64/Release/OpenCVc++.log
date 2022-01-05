@@ -1,0 +1,37 @@
+﻿  OpenCVc++.cpp
+D:\Mes_Documents\code\opencvC++\OpenCVc++.cpp(91,53): warning C4267: 'argument' : conversion de 'size_t' en 'int', perte possible de données
+D:\Mes_Documents\code\opencv\build\include\opencv2\core\cvstd_wrapper.hpp(100,1): error C2664: 'std::shared_ptr<T>::shared_ptr(std::nullptr_t) noexcept' : impossible de convertir l'argument 1 de 'Y *' en 'std::nullptr_t'
+          with
+          [
+              T=cv::Formatted
+          ]
+          and
+          [
+              Y=const char
+          ]
+D:\Mes_Documents\code\opencv\build\include\opencv2\core\cvstd_wrapper.hpp(100,69): message : nullptr ne peut être converti qu'en types pointeur ou de handles
+C:\Program Files (x86)\Microsoft Visual Studio\2019\Community\VC\Tools\MSVC\14.28.29333\include\memory(1054,5): message : voir la déclaration de 'std::shared_ptr<T>::shared_ptr'
+          with
+          [
+              T=cv::Formatted
+          ]
+D:\Mes_Documents\code\opencv\build\include\opencv2\core\cvstd_wrapper.hpp(103): message : voir la référence à l'instanciation de la fonction modèle 'cv::Ptr<cv::Formatted>::Ptr<Y>(const std::false_type &,Y *)' en cours de compilation
+          with
+          [
+              Y=const char
+          ]
+D:\Mes_Documents\code\opencv\build\include\opencv2\core\cvstd_wrapper.hpp(103): message : voir la référence à l'instanciation de la fonction modèle 'cv::Ptr<cv::Formatted>::Ptr<Y>(const std::false_type &,Y *)' en cours de compilation
+          with
+          [
+              Y=const char
+          ]
+D:\Mes_Documents\code\opencv\build\include\opencv2\core\cvstd.inl.hpp(82): message : voir la référence à l'instanciation de la fonction modèle 'cv::Ptr<cv::Formatted>::Ptr<const char>(Y *)' en cours de compilation
+          with
+          [
+              Y=const char
+          ]
+D:\Mes_Documents\code\opencvC++\OpenCVc++.cpp(47): message : voir la référence à l'instanciation de la fonction modèle 'cv::Ptr<cv::Formatted>::Ptr<const char>(Y *)' en cours de compilation
+          with
+          [
+              Y=const char
+          ]

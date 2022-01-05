@@ -1,0 +1,3 @@
+﻿  OpenCVc++.cpp
+D:\Mes_Documents\code\opencvC++\OpenCVc++.cpp(112,53): warning C4267: 'argument' : conversion de 'size_t' en 'int', perte possible de données
+  OpenCVc++.vcxproj -> D:\Mes_Documents\code\opencvC++\x64\Debug\OpenCVc++.exe
