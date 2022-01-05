@@ -87,7 +87,7 @@ void useCamera() {
 int main(int argc, char** argv)
 {
 
-   // useCamera();
+    useCamera();
     Mat src = imread("screenshot2.png", cv::IMREAD_COLOR);
     Mat thr, gray;
     blur(src, src, Size(3, 3));  
@@ -104,7 +104,7 @@ int main(int argc, char** argv)
     vector<vector<Point> >hull(contours.size());
     for (int i = 0; i < contours.size(); i++)
     {
-        approxPolyDP(Mat(contours[i]), contours_poly[i], 1, true); // modifier le epsilon pour détecter de plus petit objects
+        approxPolyDP(Mat(contours[i]), contours_poly[i], 1, true); // modifier le epsilon pour dÃ©tecter de plus petit objects
         if (contours_poly[i].size() > 2) {
             boundRect[i] = boundingRect(Mat(contours_poly[i]));
             minEnclosingCircle((Mat)contours_poly[i], center[i], radius[i]);
