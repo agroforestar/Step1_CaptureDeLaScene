@@ -36,14 +36,16 @@ void writeFormName(string form, int x, int y, Mat src) {
     putText(src, form, Point(int(x - box.height / 2), int(y + box.width / 2)), FONT_HERSHEY_SIMPLEX, 0.5, Scalar(0, 0, 255), 2);
 }
 
-void writeInOutputFile(double x, double y, string form) {
+void writeInOutputFile(double x, double y, string form, Scalar color) {
     ofstream myfile;
     myfile.open("data.txt", ios::app);
-    myfile << x ;
+    myfile << form ;
     myfile << ";";
-    myfile << y;
+    myfile << color;
     myfile << ";";
-    myfile << form;
+    myfile << x;
+    myfile << ";";
+    myfile << y ;
     myfile << "\n";
     myfile.close();
 }
@@ -87,7 +89,7 @@ void useCamera() {
 int main(int argc, char** argv)
 {
 
-    useCamera();
+   // useCamera();
     Mat src = imread("screenshot2.png", cv::IMREAD_COLOR);
     Mat thr, gray;
     blur(src, src, Size(3, 3));  
@@ -102,9 +104,11 @@ int main(int argc, char** argv)
     vector<Point2f>center(contours.size());
     vector<float>radius(contours.size());
     vector<vector<Point> >hull(contours.size());
+    Mat labels = cv::Mat::zeros(src.size(), CV_8UC1);
+    std::vector<float> cont_avgs(contours.size(), 0.f);
     for (int i = 0; i < contours.size(); i++)
     {
-        approxPolyDP(Mat(contours[i]), contours_poly[i], 1, true); // modifier le epsilon pour dÃ©tecter de plus petit objects
+        approxPolyDP(Mat(contours[i]), contours_poly[i], 1, true); // modifier le epsilon pour détecter de plus petit objects
         if (contours_poly[i].size() > 2) {
             boundRect[i] = boundingRect(Mat(contours_poly[i]));
             minEnclosingCircle((Mat)contours_poly[i], center[i], radius[i]);
@@ -115,11 +119,14 @@ int main(int argc, char** argv)
             int cX = int((M.m10 / M.m00));
             int cY = int((M.m01 / M.m00));
 
-            std::cout << contours_poly[i].size() << std::endl;
+            
             drawContours(src, contours_poly, i, Scalar(0, 0, 255), 2, 8, vector<Vec4i>(), 0, Point());
             writeFormName(form, cX, cY, src);
 
-            writeInOutputFile(cX, cY, form);
+            drawContours(labels, contours_poly, i, Scalar(i), FILLED);
+            cv::Scalar color = cv::mean(src(boundRect[i]), labels(boundRect[i]));
+
+            writeInOutputFile(cX, cY, form, color);
         }
         
     }
