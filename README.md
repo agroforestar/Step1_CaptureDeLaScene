@@ -13,6 +13,7 @@ Tuto suivi pour utiliser OpenCv : https://www.opencv-srf.com/2017/11/install-ope
 2. Ouverture de l'image et analyse des formes
 
 ## Output
-File data.txt
+File : **data.txt**
+
 Format :
 Form;(R,G,B);X;Y
