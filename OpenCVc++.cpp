@@ -7,8 +7,9 @@ using namespace cv;
 using namespace std;
 
 /**
-Recognize de shape from the number of side
-Return : name shape
+@brief Recognize de shape from the number of side
+@param size : number of borders
+@return the name of the shape
 **/
 string detect( int size ) {
    // initialize the shape nameand approximate the contour
@@ -36,7 +37,11 @@ string detect( int size ) {
 }
 
 /**
-Write in the image, the name of the geometrical shape
+@brief Write in the image, the name of the geometrical shape
+@param form : name of the shape
+@param x : X coord of the shape
+@param y : Y coord of the shape
+@param src : image in which we write
 **/
 void writeFormName(string form, int x, int y, Mat src) {
     Size box = getTextSize(form, FONT_HERSHEY_SIMPLEX, 0.5, 2, 0);
@@ -44,7 +49,11 @@ void writeFormName(string form, int x, int y, Mat src) {
 }
 
 /**
-Write in the file "data.txt" the objects and their coordinates
+@brief Write in the file "data.txt" the objects and their coordinates
+@param x : X coord of the shape
+@param y : Y coord of the shape
+@param form : name of the shape
+@param color : color (BGR format) of the shape
 **/
 void writeInOutputFile(double x, double y, string form, Scalar color) {
     ofstream myfile;
@@ -61,7 +70,9 @@ void writeInOutputFile(double x, double y, string form, Scalar color) {
 }
     
 /**
-Run the webcam and show its content. It wait the escap key to close the window. Espace key take a screenshot
+@brief Open a window with a webcam frame. 
+@details The program waits the escap key to close the window. Espace key take a screenshot
+@param[in] path : path to save the screenchottaken by the camera
 **/
 void useCamera(char* path) {
     try {
