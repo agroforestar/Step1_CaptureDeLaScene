@@ -1,6 +1,4 @@
 #include <opencv2/opencv.hpp>
-
-
 #include <iostream>
 #include <fstream>
 #include <string>
@@ -8,6 +6,10 @@
 using namespace cv;
 using namespace std;
 
+/**
+Recognize de shape from the number of side
+Return : name shape
+**/
 string detect( int size ) {
    // initialize the shape nameand approximate the contour
     string shape = "unidentified";
@@ -25,20 +27,28 @@ string detect( int size ) {
         shape = "pentagon";
     else if (size == 6)
         shape = "hexagon";
+    else if (size == 7)
+        shape = "fleche";
     else
         shape = "circle";
         // return the name of the shape
     return shape;
 }
 
+/**
+Write in the image, the name of the geometrical shape
+**/
 void writeFormName(string form, int x, int y, Mat src) {
     Size box = getTextSize(form, FONT_HERSHEY_SIMPLEX, 0.5, 2, 0);
     putText(src, form, Point(int(x - box.height / 2), int(y + box.width / 2)), FONT_HERSHEY_SIMPLEX, 0.5, Scalar(0, 0, 255), 2);
 }
 
+/**
+Write in the file "data.txt" the objects and their coordinates
+**/
 void writeInOutputFile(double x, double y, string form, Scalar color) {
     ofstream myfile;
-    myfile.open("data.txt", ios::app);
+    myfile.open("D:/Mes_Documents/code/OpenCVc++/data.txt", ios::app);
     myfile << form ;
     myfile << ";";
     myfile << color;
@@ -50,7 +60,10 @@ void writeInOutputFile(double x, double y, string form, Scalar color) {
     myfile.close();
 }
     
-void useCamera() {
+/**
+Run the webcam and show its content. It wait the escap key to close the window. Espace key take a screenshot
+**/
+void useCamera(char* path) {
     try {
         VideoCapture cam = VideoCapture(0);  // 0->index of camera
         int img_counter = 0;
@@ -69,7 +82,7 @@ void useCamera() {
                 out = true;
             }
             else if (k % 256 == 32) { //Barre espace
-                string img_name = "screenshot.png";
+                string img_name(path);
                 imwrite(img_name, frame);
                 img_counter += 1;
             }
@@ -78,6 +91,7 @@ void useCamera() {
         }
         cam.release();
         destroyAllWindows();
+        
     }
         catch (Exception e) {
             std::cout << e.what() << std::endl;
@@ -86,11 +100,12 @@ void useCamera() {
 }
     
 
-int main(int argc, char** argv)
+int main(int argc, char* argv[])
 {
 
-   // useCamera();
-    Mat src = imread("screenshot2.png", cv::IMREAD_COLOR);
+    useCamera(argv[1]);
+
+    Mat src = imread(argv[1], cv::IMREAD_COLOR); //Rename with test file or with "screenshot.png" to use the image takes by the webcam D: / Mes_Documents / code / OpenCVc++ / test2.png
     Mat thr, gray;
     blur(src, src, Size(3, 3));  
     cvtColor(src, gray, cv::COLOR_BGR2GRAY);
@@ -106,15 +121,16 @@ int main(int argc, char** argv)
     vector<vector<Point> >hull(contours.size());
     Mat labels = cv::Mat::zeros(src.size(), CV_8UC1);
     std::vector<float> cont_avgs(contours.size(), 0.f);
-    for (int i = 0; i < contours.size(); i++)
+    for (int i = 0; i < contours.size(); i++) // for each shape
     {
-        approxPolyDP(Mat(contours[i]), contours_poly[i], 1, true); // modifier le epsilon pour détecter de plus petit objects
+        approxPolyDP(Mat(contours[i]), contours_poly[i], 2, true); // modifier le epsilon pour dÃ©tecter de plus petit objects
         if (contours_poly[i].size() > 2) {
             boundRect[i] = boundingRect(Mat(contours_poly[i]));
             minEnclosingCircle((Mat)contours_poly[i], center[i], radius[i]);
             convexHull(Mat(contours[i]), hull[i], false);
 
             string form = detect(contours_poly[i].size());
+
             Moments M = moments(contours_poly[i]);
             int cX = int((M.m10 / M.m00));
             int cY = int((M.m01 / M.m00));
@@ -125,7 +141,6 @@ int main(int argc, char** argv)
 
             drawContours(labels, contours_poly, i, Scalar(i), FILLED);
             cv::Scalar color = cv::mean(src(boundRect[i]), labels(boundRect[i]));
-            
 
             writeInOutputFile(cX, cY, form, color);
         }
