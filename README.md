@@ -6,6 +6,11 @@ Tuto suivi pour utiliser OpenCv : https://www.opencv-srf.com/2017/11/install-ope
 ## Require
   - Opencv
 
+## How install compiler : 
+tuto : https://code.visualstudio.com/docs/cpp/config-mingw 
+## Commands
+Compile : 
+Run : ./x64/Release/OpenCVc++.exe pngFile.png
 ## Scenario :
 1. Lancement de la caméra pour prendre en photo la scène
   - appuyer sur "espace" pour prendre une photo
@@ -16,4 +21,4 @@ Tuto suivi pour utiliser OpenCv : https://www.opencv-srf.com/2017/11/install-ope
 File : **data.txt**
 
 Format :
-Form;(R,G,B);X;Y
+Form;(B,G,R);X;Y
